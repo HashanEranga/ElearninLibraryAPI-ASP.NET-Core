@@ -31,7 +31,12 @@ public class BookController : ControllerBase
     }
 
     // POST a new Book item
-
+    [HttpPost]
+    public IActionResult Create(Book book)
+    {
+        BookService.Add(book);
+        return CreatedAtAction(nameof(Create), new {BookId = book.BookId, book});
+    }
 
     // DELETE a existing Book item
 }
