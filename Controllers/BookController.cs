@@ -38,5 +38,31 @@ public class BookController : ControllerBase
         return CreatedAtAction(nameof(Create), new {BookId = book.BookId, book});
     }
 
+    // PUT a Book item (Change Details about a book item)
+    [HttpPut("{bookId}")]
+    public IActionResult Update(int bookId, Book book)
+    {
+        if (bookId != book.BookId) return BadRequest();
+
+        var existingBook = BookService.Get(bookId);
+
+        if(existingBook is null) return NotFound();
+
+        BookService.Update(book);
+
+        return NoContent();
+    }
+
     // DELETE a existing Book item
+    [HttpDelete("{bookId}")]
+    public IActionResult Delete(int bookId)
+    {
+        var book = BookService.Get(bookId);
+
+        if(book is null) return NotFound();
+
+        BookService.Delete(bookId);
+
+        return NoContent();
+    }
 }
